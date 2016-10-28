@@ -7,9 +7,12 @@ app = Flask(__name__)
 def display():
 	query = request.args.get('query') or None
 	if query:
-		data = ultimate.getContents(ultimate.getBestLink(query))
-		back = "<a href='/guitar-tabs/'>GO BACK</a>"
-		return back + "<p> " + data.replace("\n", "<br>") + "</p>"
+		try:
+			data = ultimate.getContents(ultimate.getBestLink(query))
+			back = "<a href='/guitar-tabs/'>GO BACK</a>"
+			return back + "<p> " + data.replace("\n", "<br>") + "</p>"
+		except Exception:
+			return "Song dosen't exist"
 	else:
 		return """
 		<form method='GET' action="/guitar-tabs/">
