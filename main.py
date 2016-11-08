@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 import ultimate
+from twitter import Twitter
 
 app = Flask(__name__)
 
@@ -20,5 +21,22 @@ def display():
 	else:
 		return render_template('search.html')
 
+@app.route('/twitter-api/', methods=['GET'])
+def twitter():
+	tObj = Twitter()
+
+	tag = request.args.get('tag') or None
+	if tag:
+		try:
+			tweets = tObj.getTweets(tag)
+			display = ""
+			for tweet in tweets:
+				display += tweet.text + "<br>"
+			return display
+		except Exception as e:
+			return "<br><br><p class='lead'>ERROR 111</p><br><br>Something went wrong.." + str(e)
+	else:
+		return "Test" 		
+
 if __name__ == '__main__':
-    app.run(port=8080)
+    app.run(port=5000)
