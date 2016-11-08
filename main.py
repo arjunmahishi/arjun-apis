@@ -13,6 +13,10 @@ def filterText(text):
 			clean_text += letter
 	return clean_text
 
+@app.route('/')
+def home():
+	return render_template("home.html")
+
 @app.route('/guitar-tabs/', methods=['GET'])
 def display():
 	query = request.args.get('query') or None
