@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import ultimate
 
 app = Flask(__name__)
@@ -9,17 +9,16 @@ def display():
 	if query:
 		try:
 			data = ultimate.getContents(ultimate.getBestLink(query))
-			back = "<a href='/guitar-tabs/'>GO BACK</a>"
-			return back + "<p> " + data.replace("\n", "<br>") + "</p>"
-		except Exception:
-			return "Song dosen't exist"
+			tab = data.replace("\n", " <br> ")
+			html_code = open('templates/tabs.html').read()
+			file = open('templates/tabs1.html', 'w')
+			file.write(html_code.replace("~~~CUE~~~", tab))
+			file.close()
+			return render_template('tabs1.html')
+		except Exception as e:
+			return "<br><br>" + "Couldn't find the song..." + str(e)
 	else:
-		return """
-		<form method='GET' action="/guitar-tabs/">
-			<input type='text' placeholder='search song' name='query'>
-			<input type='submit' value='search'>
-		</form>
-		"""
+		return render_template('search.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=8080)

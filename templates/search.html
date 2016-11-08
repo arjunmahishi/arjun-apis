@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<center class="lead" style="margin-top:136px">Ultimate Guitar Mirror </center>
+<form method='GET' action="/guitar-tabs/" style="padding-top:112px">
+	<div class="col-md-2 col-md-offset-5">
+	<input type='text' class="form-control" placeholder='search song' name='query'><br>
+	<button type='submit' class="btn btn-primary">SEARCH</button>
+	</div>
+</form>
+{% endblock %}
