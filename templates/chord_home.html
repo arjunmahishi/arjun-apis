@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<center class="lead" style="margin-top:136px">Chord Genie API</center>
+<form method='GET' action="/chord-genie-api/" style="padding-top:112px">
+	<div class="col-md-2 col-md-offset-5">
+	<input type='text' class="form-control" placeholder='Enter the Key (optional)' name='key'><br>
+
+	<div class="radio">
+	  <label>
+	    <input type="radio" name="pref" id="optionsRadios2" value="" checked>
+	    Random
+	  </label>
+	</div>
+	<div class="radio">
+	  <label>
+	    <input type="radio" name="pref" id="optionsRadios1" value='0'>
+	    Major
+	  </label>
+	</div>
+	<div class="radio">
+	  <label>
+	    <input type="radio" name="pref" id="optionsRadios2" value='1'>
+	    Minor
+	  </label>
+	</div>
+
+	<input type='text' name="api" value="True" hidden="True">
+
+	<button type='submit' class="btn btn-primary">GENERATE</button>
+	</div>
+</form>
+{% endblock %}

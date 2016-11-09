@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
-import ultimate
-from twitter import Twitter
+from guitarTabs import ultimate
+from twitter.twitter import Twitter
+from music.chordsGenerator import compose
 
 app = Flask(__name__)
 
@@ -56,5 +57,21 @@ def twitter():
 	else:
 		return render_template("twitter_home.html")		
 
+@app.route('/chord-genie-api/', methods=['GET'])
+def chordGenie():
+	api = request.args.get('api') or None
+	if api:
+		pref = request.args.get('pref') or None
+		key = request.args.get('key') or None
+		html_code = open('templates/frame.html').read()
+		file = open('templates/chordGenie.html', 'w')
+		file.write(html_code.replace("~~~CUE~~~", str(compose(pref=pref, key=key))))
+		file.close()
+		return render_template('chordGenie.html')
+	else:
+		pref = request.args.get('pref') or None
+		key = request.args.get('key') or None
+		return render_template('chord_home.html')
+
 if __name__ == '__main__':
-    app.run(port=8000)
+    app.run(debug=True, port=8000)
