@@ -1,7 +1,8 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from guitarTabs import ultimate
 from twitter.twitter import Twitter
 from music.chordsGenerator import compose
+import srmbot
 
 app = Flask(__name__)
 
@@ -73,5 +74,14 @@ def chordGenie():
 		key = request.args.get('key') or None
 		return render_template('chord_home.html')
 
+@app.route('/srm-news-api/')
+def srmNewsBot():
+    try:    
+        news = srmbot.getNews()
+        data = srmbot.makeData(news)
+    except Exception as e:
+        return str(e)
+    return jsonify(data)
+
 if __name__ == '__main__':
-    app.run(debug=True, port=8000)
+    app.run(debug=False)
